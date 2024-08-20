@@ -1,6 +1,7 @@
 # Goodmorning
 
 초음파 기반 재취침 방지 시스템
+
 프로젝트 정리 Notion 링크 : https://www.notion.so/4def5fd044aa469580c12cfa551aadd0?pvs=4
 ## Purpose
 
