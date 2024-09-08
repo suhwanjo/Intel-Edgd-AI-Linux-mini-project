@@ -170,14 +170,14 @@ uint8_t DHT11_Read() {
 }
 void SendDistData(uint16_t distance) {
     static char buffer[50];
-    snprintf(buffer, sizeof(buffer), "[JSH_ARD]ULTR@%d\n", distance);
+    snprintf(buffer, sizeof(buffer), "[KJD_ARD]ULTR@%d\n", distance);
     HAL_UART_Transmit_IT(&huart6, (uint8_t*)buffer, strlen(buffer));
     HAL_UART_Transmit_IT(&huart2, (uint8_t*)buffer, strlen(buffer));
 
 }
 void SendDHTData(uint8_t temperature, uint8_t humidity) {
     static char buffer2[50];
-    snprintf(buffer2, sizeof(buffer2), "[JSH_ARD]DHT@%d@%d\n", temperature, humidity);
+    snprintf(buffer2, sizeof(buffer2), "[KJD_ARD]DHT@%d@%d\n", temperature, humidity);
     HAL_UART_Transmit_IT(&huart6, (uint8_t*)buffer2, strlen(buffer2));
     HAL_UART_Transmit_IT(&huart2, (uint8_t*)buffer2, strlen(buffer2));
 
