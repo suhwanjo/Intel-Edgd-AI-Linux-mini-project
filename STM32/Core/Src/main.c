@@ -230,6 +230,7 @@ int main(void)
 
   HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_1);
   HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_2);
+  DHT11_Start();	// 센서 초기화
 
   //HAL_UART_Receive_IT(&huart2, &rx2char,1);
   //HAL_UART_Receive_IT(&huart6, &btchar,1);
@@ -252,24 +253,23 @@ int main(void)
 
 	  HAL_Delay(500); // 에코 신호를 기다리기 위한 충분한 대기 시간
 
-	  	  if (cntBuffer > 0) {
-	  		  distance = cntBuffer / 58;
-	  	  } else {
-	  		  distance = 0;
-	  	  }
+	  if (cntBuffer > 0) {
+	  	distance = cntBuffer / 58;
+	  } else {
+	  	distance = 0;
+	  }
+	  SendDistData(distance);
 
-		SendDistData(distance);
-
-          // DHT11 센서 측정
-	  DHT11_Start();	// 센서 초기화
-		DHT11_CheckResponse();
-		uint8_t data[5];
-		for(int i = 0; i < 5; i++)	// 5개 바이트 읽기
-			data[i] = DHT11_Read();
-		// 5개 바이트...
-		// [습도 상위] [습도 하위] [온도 상위] [온도 하위] [Check sum : sum]
-		SendDHTData(data[0],data[2]);
-		HAL_Delay(1000);
+          // 온습도 센서 측정
+	  if(DHT11_CheckResponse()) {
+	  	uint8_t data[5];
+	  	for(int i = 0; i < 5; i++)	// 5개 바이트 읽기
+		  	data[i] = DHT11_Read();
+	  	// 5개 바이트...
+	  	// [습도 상위] [습도 하위] [온도 상위] [온도 하위] [Check sum : sum]
+	  	SendDHTData(data[0],data[2]);
+	  }
+	  HAL_Delay(1000);
 
   }
   /* USER CODE END 3 */
